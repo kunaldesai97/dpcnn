@@ -1,0 +1,9 @@
+My contributions in this project were:
+1. Collection of torchtext datasets.
+2. Creation of regional embeddings layer using EmbeddingBag.
+3. Implementation of custom batch generator function to load variable length inputs into dataloader.
+4. Training the ag news, yelp review polarity, yelp review full and amazon review full models on the datasets and reporting their scores.
+5. Helping out in the poster presentation and video.
+6. Writing analysis in the jupyter notebook.
+7. Writing about the model and approach, analysis/evaluation of example predictions in report.
+8. Writing the evaluation script for output.zip

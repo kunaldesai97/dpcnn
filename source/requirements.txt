@@ -1,0 +1,9 @@
+torch
+torchtext
+torchvision
+tensorboard
+colorama
+opencv-python
+numpy
+seaborn
+ipykernel
