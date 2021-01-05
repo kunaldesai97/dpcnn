@@ -1,0 +1,78 @@
+#
+# CMPT 756 Term Project
+#
+# k8s yaml to deploy a service:
+#   1 Deployment - this governs the logic (container)
+#   1 Service - this opens up the logic
+#   1 Service Account - this enable access control
+#
+# Notes:
+#
+# 1. the Service's .spec.ports[0] need to matches the Deployment's
+#    .spec.template.spec.containers[0].ports
+# 2. Deployment's .spec.template.spec.containers.livenessProbe & readinessProbe
+#    can be removed to clean up the logs
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: predcontainer
+  labels:
+    app: predcontainer
+spec:
+  ports:
+  - port: 5001
+    name: http
+  selector:
+    app: predcontainer
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: svc-prediction
+  labels:
+    account: SVC_Prediction
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: predcontainer
+  labels:
+    app: predcontainer
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: predcontainer
+      version: v1
+  template:
+    metadata:
+      name: prediction-pod
+      labels:
+        app: predcontainer
+        version: v1
+    spec:
+      serviceAccountName: svc-prediction
+      containers:
+      - name: service1
+        image: docker.io/kdesai1505/predcontainer:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5001
+        livenessProbe:
+          httpGet:
+            path: /api/v1/model/health
+            port: 5001
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 5
+        readinessProbe:
+          httpGet:
+            path: /api/v1/model/readiness
+            port: 5001
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 5

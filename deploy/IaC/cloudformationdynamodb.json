@@ -1,0 +1,50 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Resources": {
+      "tableInput": {
+        "Type": "AWS::DynamoDB::Table",
+        "Properties": {
+          "TableName": "Input",
+          "AttributeDefinitions": [
+            {
+              "AttributeName": "input_id",
+              "AttributeType": "S"
+            }
+          ],
+          "KeySchema": [
+            {
+              "AttributeName": "input_id",
+              "KeyType": "HASH"
+            }
+          ],
+          "ProvisionedThroughput": {
+            "ReadCapacityUnits": "5",
+            "WriteCapacityUnits": "5"
+          }
+        }
+      },
+      "tablePrediction": {
+        "Type": "AWS::DynamoDB::Table",
+        "Properties": {
+          "TableName": "Prediction",
+          "AttributeDefinitions": [
+            {
+              "AttributeName": "label",
+              "AttributeType": "S"
+            }
+          ],
+          "KeySchema": [
+            {
+              "AttributeName": "label",
+              "KeyType": "HASH"
+            }
+          ],
+          "ProvisionedThroughput": {
+            "ReadCapacityUnits": "5",
+            "WriteCapacityUnits": "5"
+          }
+        }
+      }
+    },
+    "Description": "DynamoDB"
+  }
