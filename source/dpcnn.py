@@ -44,10 +44,10 @@ class DPCNN_rep_block(torch.nn.Module):
 
         # pre-activation
         sc = x
+        x = torch.nn.functional.relu(x)
         x = self.conv1(x)
         x = torch.nn.functional.relu(x)
         x = self.conv2(x)
-        x = torch.nn.functional.relu(x)
         x = x + sc.expand(x.shape)
 
         return x
@@ -103,10 +103,10 @@ class DPCNN(torch.nn.Module):
 
         # pre-activation
         sc = x
+        x = torch.nn.functional.relu(x)
         x = self.pre_conv1(x)
         x = torch.nn.functional.relu(x)
         x = self.pre_conv2(x)
-        x = torch.nn.functional.relu(x)
         x = x + sc.expand(x.shape)
 
         x = self.block1(x)
